@@ -278,12 +278,10 @@
         } else {
             format = guessFormat(tag, src);
         }
-        console.log(element);
         var trackCaptions;
         each(element.getElementsByTagName("track"), function(track) {
           trackCaptions = track.getAttribute("src") || "";
         });
-        console.log(trackCaptions);
         // Create the replacement element div.
         var replacement = document.createElement("span");
         replacement.id = element.id;
