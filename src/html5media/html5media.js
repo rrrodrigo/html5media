@@ -75,7 +75,7 @@
                         // Check for source child attributes.
                         each(media.getElementsByTagName("source"), function(source) {
                             if (canPlayFormat(guessFormat(tag, source.src, source.type))) {
-                                requiresFallback = true;
+                                requiresFallback = false;
                             }
                         });
                     }
