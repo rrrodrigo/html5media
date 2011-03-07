@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.1
 """
 Build script for the html5media project.
 
@@ -53,6 +53,8 @@ def main():
                 os.path.join(HTML5MEDIA_BUILD_ROOT, "flowplayer.controls.swf"))
     shutil.copy(os.path.join(LIB_ROOT, "flowplayer.audio", "flowplayer.audio.swf"),
                 os.path.join(HTML5MEDIA_BUILD_ROOT, "flowplayer.audio.swf"))
+    shutil.copy(os.path.join(LIB_ROOT, "flowplayer.captions", "flowplayer.captions.swf"),
+                os.path.join(HTML5MEDIA_BUILD_ROOT, "flowplayer.captions.swf"))
     # Copy over the license and readme files.
     shutil.copy(os.path.join(PROJECT_ROOT, "LICENSE"),
                 os.path.join(HTML5MEDIA_BUILD_ROOT, "LICENSE"))

@@ -1,32 +1,32 @@
 /*
  * HTML 5 media compatibility layer.
- * 
+ *
  * Copyright 2010 Dave Hall <dave@etianen.com>.
- * 
+ *
  * This script is part of the html5media project. The html5media project enables
  * HTML5 video and audio tags in all major browsers.
- * 
+ *
  * The html5media project is free software: you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or (at your
  * option) any later version.
- * 
+ *
  * The html5media project is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
  * Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with html5media.  If not, see<http://www.gnu.org/licenses/>.
- * 
+ *
  * Developed by Dave Hall.
- * 
+ *
  * <http://www.etianen.com/>
  */
 
 
 (function(window, document, undefined) {
-    
+
     // Executes the given callback in the context of each array item.
     function each(items, callback) {
         var itemsArray = [];
@@ -37,22 +37,22 @@
             callback(itemsArray[n]);
         }
     }
-    
+
     // Tagnames for the different types of media tag.
     var VIDEO_TAG = "video";
     var AUDIO_TAG = "audio";
-    
+
     // If no video tag is supported, go ahead and enable all HTML5 elements.
     if (!document.createElement(VIDEO_TAG).canPlayType) {
         each(["abbr", "article", "aside", "audio", "canvas", "details", "figcaption", "figure", "footer", "header", "hgroup", "mark", "menu", "meter", "nav", "output", "progress", "section", "summary", "time", "video", "source"], function(name){
             document.createElement(name);
         });
     }
-    
+
     /**
      * Replaces all video tags with flowplayer video player if the browser does
      * not support either the video tag the h.264 codex.
-     * 
+     *
      * This is run automatically on document ready, but can be run manually
      * again after dynamically creating HTML5 video tags.
      */
@@ -75,7 +75,7 @@
                         // Check for source child attributes.
                         each(media.getElementsByTagName("source"), function(source) {
                             if (canPlayFormat(guessFormat(tag, source.src, source.type))) {
-                                requiresFallback = false;
+                                requiresFallback = true;
                             }
                         });
                     }
@@ -94,16 +94,16 @@
             });
         });
     }
-    
+
     // Removes the final filename from the given path.
     function dirname(path) {
         return path.split("/").slice(0, -1).join("/") + "/";
     }
-    
+
     /**
      * The locations of the flowplayer and flowplayer controls SWF files.
-     * 
-     * Override this if they are not located in the same folder as the 
+     *
+     * Override this if they are not located in the same folder as the
      */
     var scriptRoot = "";
     each(document.getElementsByTagName("script"), function(script) {
@@ -115,7 +115,8 @@
     html5media.flowplayerSwf = scriptRoot + "flowplayer.swf";
     html5media.flowplayerAudioSwf = scriptRoot + "flowplayer.audio.swf";
     html5media.flowplayerControlsSwf = scriptRoot + "flowplayer.controls.swf";
-    
+    html5media.flowplayerCaptionsSwf = scriptRoot + "flowplayer.captions.swf";
+
     /**
      * Known media formats. Used to change the assumed format to a different
      * format, such as Theora, if desired.
@@ -126,7 +127,7 @@
     var M4A_FORMAT = html5media.M4A_FORMAT = 'audio/x-m4a;';
     var MP3_FORMAT = html5media.MP3_FORMAT = 'audio/mpeg;';
     var WAV_FORMAT = html5media.WAV_FORMAT = 'audio/wav; codecs="1"';
-    
+
     /**
      * The video format to assume if it cannot be determined what format a media
      * file is.
@@ -135,12 +136,12 @@
         video: H264_FORMAT,
         audio: MP3_FORMAT
     }
-    
+
     /**
      * Formats that the fallback Flash player is able to understand.
      */
     var fallbackFormats = html5media.fallbackFormats = [html5media.H264_FORMAT, html5media.M4A_FORMAT, html5media.MP3_FORMAT];
-    
+
     /**
      * Known file extensions that can be used to guess media formats in the
      * absence of other information.
@@ -171,18 +172,18 @@
             "wav": WAV_FORMAT
         }
     }
-    
+
     // Trys to determine the format of a given video file.
     function guessFormat(tag, src, type) {
         return type || fileExtensions[tag][src.split(".").slice(-1)[0]] || assumedFormats[tag];
     }
-    
+
     // Detects presence of HTML5 attributes.
     function hasAttr(element, attr) {
         var val = element.getAttribute(attr);
         return val == true || typeof val == "string";
     }
-    
+
     // Standardizes URLs to avoid confusing Flowplayer.
     var hostUrl = window.location.protocol + "//" + window.location.host;
     var baseUrl = String(window.location);
@@ -203,7 +204,7 @@
         }
         return url;
     }
-    
+
     // Calculates the given dimension of the given element.
     function getDimension(element, dimension, fallback) {
         // Attempt to use it's attribute value.
@@ -220,16 +221,16 @@
             return fallback;
         }
         if (style == "auto") {
-            return fallback; 
+            return fallback;
         }
         return style;
     }
-    
+
     // Extracts the mimetype from a format string.
     function getMimeType(format) {
         return format.match(/\s*([\w-]+\/[\w-]+)(;|\s|$)/)[1];
     }
-    
+
     // Checks whether the two formats are equivalent.
     function formatMatches(format1, format2) {
         return (getMimeType(format1) == getMimeType(format2));
@@ -240,17 +241,17 @@
      * launches. This callback is supplied with the tagname of the element being
      * replaced ("video" or "audio"), the element being replaced, and the
      * generated Flowplayer configuration.
-     * 
+     *
      * This callback should return the updated Flowplayer configuration. By
      * The default implementation leaves the generated configuration intact.
      */
     html5media.configureFlowplayer = function(tag, element, config) {
         return config;
     }
-    
+
     /**
      * Default callback for creating a fallback for html5 media tags.
-     * 
+     *
      * This implementation creates flowplayer instances, but this can
      * theoretically be used to support all different types of flash player.
      */
@@ -276,6 +277,9 @@
         } else {
             format = guessFormat(tag, src);
         }
+        each(media.getElementsByTagName("track"), function(track) {
+          var trackCaptions = track.getAttribute("src") || "";
+        });
         // Create the replacement element div.
         var replacement = document.createElement("span");
         replacement.id = element.id;
@@ -326,6 +330,31 @@
             // HACK: The Flowplayer audio plugin will autoplay clips and never stop if autobuffering is enabled.
             playlist.slice(-1)[0].autoBuffering = false;
         }
+        if (!trackCaptions == "") {
+          plugins["captions"] = {
+            url: fixPath(html5media.flowplayerCaptionsSwf),
+            captionTarget: "content"
+          }
+          plugins["content"] = {
+            url: fixPath(html5media.flowplayerCaptionsSwf),
+            bottom: 5,
+            height:40,
+            backgroundColor: 'transparent',
+            backgroundGradient: 'none',
+            border: 0,
+            textDecoration: 'outline',
+            style: {
+              body: {
+                fontSize: 14,
+                fontFamily: 'Arial',
+                textAlign: 'center',
+                color: '#ffffff'
+              }
+            }
+          }
+        }
+
+
         // Load the Flowplayer.
         var config = {
             play: null,
@@ -333,7 +362,8 @@
             clip: {
                 scaling: "fit",
                 fadeInSpeed: 0,
-                fadeOutSpeed: 0
+                fadeOutSpeed: 0,
+                captionUrl: trackCaptions,
             },
             plugins: plugins
         }
@@ -352,8 +382,8 @@
         // The standalone build of html5media uses the bundled DomReady library.
         DomReady.ready(html5media);
     }
-    
+
     // Expose html5media to the global object.
     window.html5media = html5media;
-    
+
 })(this, document);
