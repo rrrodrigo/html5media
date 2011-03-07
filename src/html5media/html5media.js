@@ -116,6 +116,7 @@
     html5media.flowplayerAudioSwf = scriptRoot + "flowplayer.audio.swf";
     html5media.flowplayerControlsSwf = scriptRoot + "flowplayer.controls.swf";
     html5media.flowplayerCaptionsSwf = scriptRoot + "flowplayer.captions.swf";
+    html5media.flowplayerContentSwf = scriptRoot + "flowplayer.content.swf";
 
     /**
      * Known media formats. Used to change the assumed format to a different
@@ -277,9 +278,12 @@
         } else {
             format = guessFormat(tag, src);
         }
-        each(media.getElementsByTagName("track"), function(track) {
-          var trackCaptions = track.getAttribute("src") || "";
+        console.log(element);
+        var trackCaptions;
+        each(element.getElementsByTagName("track"), function(track) {
+          trackCaptions = track.getAttribute("src") || "";
         });
+        console.log(trackCaptions);
         // Create the replacement element div.
         var replacement = document.createElement("span");
         replacement.id = element.id;
@@ -331,12 +335,12 @@
             playlist.slice(-1)[0].autoBuffering = false;
         }
         if (!trackCaptions == "") {
-          plugins["captions"] = {
+          plugins.captions = {
             url: fixPath(html5media.flowplayerCaptionsSwf),
-            captionTarget: "content"
+            captionTarget: 'content'
           }
-          plugins["content"] = {
-            url: fixPath(html5media.flowplayerCaptionsSwf),
+          plugins.content = {
+            url: fixPath(html5media.flowplayerContentSwf),
             bottom: 5,
             height:40,
             backgroundColor: 'transparent',
@@ -364,6 +368,7 @@
                 fadeInSpeed: 0,
                 fadeOutSpeed: 0,
                 captionUrl: trackCaptions,
+                provider: "http"
             },
             plugins: plugins
         }
