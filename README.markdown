@@ -21,6 +21,7 @@ This fork modifies the [Flowplayer][]-based Flash fallback so subititles in [Sub
 This will play the video with subtitles without Flash in any HTML5-capable browser.
 For older browser it will revert to [Flowplayer][] (Flash) and display the same SRT subtitles using Flowplayer plugins called [FlowplayerCaptions][] and [FlowplayerContent][].
 
+One more thing: [Flowplayer][] has been upgraded to version 3.2.7 in this fork.
 
 [SubRip SRT format]: http://en.wikipedia.org/wiki/SubRip
 [jquery videosub]: https://github.com/icelab/jquery-videosub
