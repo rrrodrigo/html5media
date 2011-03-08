@@ -9,7 +9,7 @@ Unfortunately, not all browsers natively support these HTML5 tags.
 Why this fork?
 --------------
 
-This fork modifies the [Flowplayer][]-based Flash fallback so subititles in [SubRip SRT format][] can be displayed for video clips embedded on web pages. When HTML5 `<video>` tag is used directly, the subtitles are shown with the help of [jquery videosub][] library. How to embed a movie with captions into a HTML document? Here's an example:
+This fork modifies the [Flowplayer][]-based Flash fallback so subititles in [SubRip SRT format][] can be displayed for video clips embedded on web pages. When HTML5 `<video>` tag is used directly, the subtitles can be shown with the help of [jquery videosub][] library. How to embed a movie with captions into a HTML document? Here's an example:
 
     <video width="320" height="240" controls poster="video/train_ride_poster.jpg">
       <source src="video/train_ride.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'></source>
@@ -19,7 +19,7 @@ This fork modifies the [Flowplayer][]-based Flash fallback so subititles in [Sub
     </video>
 
 This will play the video with subtitles without Flash in any HTML5-capable browser.
-For older browser it will revert to [Flowplayer][] (Flash) and display the same SRT subtitles using Flowplayer plugins called [FlowplayerCaptions][] and [FlowplayerContent][].
+For any older browser it will revert to [Flowplayer][] (Flash) and display the same SRT subtitles using Flowplayer plugins called [FlowplayerCaptions][] and [FlowplayerContent][].
 
 One more thing: [Flowplayer][] has been upgraded to version 3.2.7 in this fork.
 
