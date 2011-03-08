@@ -6,6 +6,28 @@ embedding an image. All it takes is a single `<video>` or `<audio>` tag.
 Unfortunately, not all browsers natively support these HTML5 tags.
 
 
+Why this fork?
+--------------
+
+This fork modifies the [Flowplayer][]-based Flash fallback so subititles in [SubRip SRT format][] can be displayed for video clips embedded on web pages. When HTML5 `<video>` tag is used directly, the subtitles are shown with the help of [jquery videosub][] library. How to embed a movie with captions into a HTML document? Here's an example:
+
+    <video width="320" height="240" controls poster="video/train_ride_poster.jpg">
+      <source src="video/train_ride.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'></source>
+      <source src="video/train_ride.ogv" type='video/ogg; codecs="theora, vorbis"'></source>
+      <source src="video/train_ride.webm" type='video/webm; codecs="vp8, vorbis"'></source>
+      <track src="video/train_ride.srt" kind="subtitle" srclang="en-US" label="English"></track>
+    </video>
+
+This will play the video with subtitles without Flash in any HTML5-capable browser.
+For older browser it will revert to [Flowplayer][] (Flash) and display the same SRT subtitles using Flowplayer plugins called [FlowplayerCaptions][] and [FlowplayerContent][].
+
+
+[SubRip SRT format]: http://en.wikipedia.org/wiki/SubRip
+[jquery videosub]: https://github.com/icelab/jquery-videosub
+[Flowplayer]: http://flowplayer.org/
+[FlowplayerCaptions]: http://flowplayer.org/plugins/flash/captions.html
+[FlowplayerContent]: http://flowplayer.org/plugins/flash/content.html
+
 Enabling video and tags in all major browsers
 ---------------------------------------------
 
@@ -23,7 +45,7 @@ major browsers!
 3.  Add the following snippet the to `<head>` of your document:
 
         <script src="/path/to/your/html5media.min.js"></script>
-    
+
 You can see this code in action on the [html5media demo site][].
 
 [html5media demo site]: http://etianen.github.com/html5media/
@@ -33,8 +55,8 @@ Please read our [Getting Started][] guide for more information.
 
 [Getting Started]: http://wiki.github.com/etianen/html5media/getting-started
     "Getting started with html5media"
-    
-    
+
+
 Using HTML5 video and audio
 ---------------------------
 
@@ -44,7 +66,7 @@ easy syntax:
     <video src="video.mp4" width="320" height="240" controls preload></video>
 
     <audio src="audio.mp3" controls preload></audio>
-    
+
 Find out more about HTML5 on the [Dive Into HTML5 video page].
 
 [Dive Into HTML5 video page]: http://diveintohtml5.org/video.html
@@ -53,8 +75,8 @@ You can ask for help and discuss all aspects of HTML5 media and audio on the
 [html5media discussion group][].
 
 [html5media discussion group]: http://groups.google.com/group/html5media
-    
-    
+
+
 Help! My file won't play!
 --------------------------
 
@@ -65,8 +87,8 @@ or Theora (ogv) files. Find out more on our [Video Formats][] page.
     "Video formats supported by html5media"
 
 Audio files should be saved as mp3, AAC (m4a) or Vorbis (ogg).
-    
-    
+
+
 What's in the box?
 ------------------
 
@@ -79,8 +101,8 @@ You can find out more about Flowplayer on the [Flowplayer website][].
 
 [Flowplayer website]: http://flowplayer.org
     "Flowplayer - Flash Video Player for the Web"
-    
-    
+
+
 More information
 ----------------
 
@@ -89,7 +111,7 @@ The html5media project was developed by Dave Hall. You can get the code from the
 
 [html5media project site]: http://github.com/etianen/html5media
     "Dave Hall's html5media on GitHub"
-    
+
 Dave Hall is a freelance web developer, based in Cambridge, UK. You can usually
 find him on the Internet in a number of different places:
 
